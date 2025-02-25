@@ -254,3 +254,14 @@ interface Application {
 - Engagement metrics
 - Conversion rates
 - User satisfaction scores 
+
+src/
+├── components/
+│   ├── ui/          # Base UI components (buttons, inputs, etc.)
+│   ├── layout/      # Layout components
+│   └── features/    # Feature-specific components
+├── styles/          # Global styles and theme
+├── lib/            # Utilities and configurations
+├── features/       # Feature-specific logic
+├── pages/          # Next.js pages
+└── types/          # TypeScript type definitions 
