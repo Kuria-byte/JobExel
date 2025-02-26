@@ -6,22 +6,7 @@ import { Download, FileDown, Share2 } from "lucide-react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-
-interface CVData {
-  name?: string
-  email?: string
-  phone?: string
-  education?: Array<{
-    institution: string
-    degree: string
-    year: string
-  }>
-  experience?: Array<{
-    company: string
-    position: string
-    duration: string
-  }>
-}
+import { CVData } from "@/types"
 
 interface CVGenerationModalProps {
   open: boolean
@@ -58,7 +43,7 @@ export function CVGenerationModal({ open, onOpenChange, data }: CVGenerationModa
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="max-w-4xl">
         <DialogHeader>
           <DialogTitle>{status === "generating" ? "Generating your CV" : "CV Ready!"}</DialogTitle>
           <DialogDescription>
@@ -68,7 +53,7 @@ export function CVGenerationModal({ open, onOpenChange, data }: CVGenerationModa
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-8 py-4">
+        <div className="grid gap-4">
           {status === "generating" ? (
             <div className="space-y-4">
               <Progress value={progress} className="h-2" />

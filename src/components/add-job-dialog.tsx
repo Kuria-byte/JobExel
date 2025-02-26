@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { LinkIcon, MapPin, Building2, Briefcase, DollarSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -24,7 +23,7 @@ interface AddJobDialogProps {
     location: string
     salary: string
     status: string
-    jobUrl: string
+    jobUrl?: string
   }) => void
   open: boolean
   setOpen: (open: boolean) => void
@@ -52,6 +51,7 @@ export function AddJobDialog({ onAddJob, open, setOpen }: AddJobDialogProps) {
       status: "Not Started",
       jobUrl: "",
     })
+  
   }
 
   return (
@@ -121,7 +121,7 @@ export function AddJobDialog({ onAddJob, open, setOpen }: AddJobDialogProps) {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="status">Application Status</Label>
-              <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
+              <Select value={formData.status} onValueChange={(value: string) => setFormData({ ...formData, status: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
