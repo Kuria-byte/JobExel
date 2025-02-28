@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
+  swcMinify: true,
+  optimizeFonts: true,
+  poweredByHeader: false,
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -25,5 +29,4 @@ const nextConfig = {
   },
 }
 
-// Export the config directly
 export default nextConfig;
