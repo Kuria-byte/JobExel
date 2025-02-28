@@ -238,21 +238,32 @@ export default function DashboardPage() {
       <NavBar />
       <main className="flex-1 space-y-6 p-6 md:p-8">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col space-y-4 w-full max-w-full overflow-hidden">
           <div className="space-y-2">
             <Greeting name="Ian Kuria" />
-            <p className="text-muted-foreground">Track and manage your job applications</p>
-            <div className="flex gap-3 pt-2">
-              <Button className="gap-2" onClick={() => setIsAddJobDialogOpen(true)}>
-                <Plus className="h-4 w-4" />
-                Add Job
-              </Button>
-              <Button variant="outline" className="gap-2" onClick={handleBrowseJobs}>
-                <Search className="h-4 w-4" />
-                Browse Jobs
-              </Button>
-            </div>
+            <p className="text-muted-foreground text-sm md:text-base">
+              Track and manage your job applications
+            </p>
           </div>
+          
+          <div className="flex flex-wrap gap-2 w-full">
+            <Button 
+              className="flex-1 sm:flex-none gap-2 min-w-[140px]" 
+              onClick={() => setIsAddJobDialogOpen(true)}
+            >
+              <Plus className="h-4 w-4" />
+              Add Job
+            </Button>
+            <Button 
+              variant="outline" 
+              className="flex-1 sm:flex-none gap-2 min-w-[140px]"
+              onClick={handleBrowseJobs}
+            >
+              <Search className="h-4 w-4" />
+              Browse Jobs
+            </Button>
+          </div>
+        
           <AddJobDialog 
             onAddJob={handleAddJob} 
             open={isAddJobDialogOpen} 

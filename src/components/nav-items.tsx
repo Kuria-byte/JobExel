@@ -8,7 +8,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Badge } from "@/components/ui/badge"
 import { CVBuilderDialog } from "./cv-builder/cv-builder-dialog"
 
-export function NavItems() {
+interface NavItemsProps {
+  orientation?: "horizontal" | "vertical"
+}
+
+export function NavItems({ orientation = "horizontal" }: NavItemsProps) {
   const [activeItem, setActiveItem] = useState<string | null>(null)
   const [notifications] = useState(3)
   const [showCVBuilder, setShowCVBuilder] = useState(false)
@@ -45,132 +49,136 @@ export function NavItems() {
     },
   ]
 
-  return (
-    <>
-      <div className="flex items-center gap-2">
-        {navItems.map((item) =>
-          item.items ? (
-            <DropdownMenu key={item.id}>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant={activeItem === item.id ? "secondary" : "ghost"}
-                  className="relative gap-2"
-                  onMouseEnter={() => setActiveItem(item.id)}
-                  onMouseLeave={() => setActiveItem(null)}
-                >
-                  <motion.div
-                    animate={{
-                      scale: activeItem === item.id ? 1.1 : 1,
-                      rotate: activeItem === item.id ? [0, -10, 10, 0] : 0,
-                    }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <item.icon className="h-4 w-4" />
-                  </motion.div>
-                  {item.label}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
-                <AnimatePresence>
-                  {item.items.map((subItem, index) => (
-                    <motion.div
-                      key={subItem.label}
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <DropdownMenuItem className="flex items-center gap-2">
-                        <subItem.icon className="h-4 w-4" />
-                        {subItem.label}
-                      </DropdownMenuItem>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button
-              key={item.id}
-              variant={item.isActive ? "secondary" : "ghost"}
-              className="gap-2"
-              onClick={item.onClick}
-              onMouseEnter={() => setActiveItem(item.id)}
-              onMouseLeave={() => setActiveItem(null)}
-            >
-              <motion.div
-                animate={{
-                  scale: activeItem === item.id ? 1.1 : 1,
-                  rotate: activeItem === item.id ? [0, -10, 10, 0] : 0,
-                }}
-                transition={{ duration: 0.2 }}
-              >
-                <item.icon className="h-4 w-4" />
-              </motion.div>
-              {item.label}
-            </Button>
-          ),
-        )}
+  const itemsClass = orientation === "vertical" 
+    ? "flex-col space-y-4" 
+    : "space-x-6"
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="relative"
-              onMouseEnter={() => setActiveItem("notifications")}
-              onMouseLeave={() => setActiveItem(null)}
-            >
-              <motion.div
-                animate={{
-                  scale: activeItem === "notifications" ? 1.1 : 1,
-                  rotate: activeItem === "notifications" ? [0, -10, 10, 0] : 0,
-                }}
-                transition={{ duration: 0.2 }}
+  return (
+    <nav className={`flex items-center ${itemsClass}`}>
+      {/* Navigation Items */}
+      {navItems.map((item) =>
+        item.items ? (
+          <DropdownMenu key={item.id}>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant={activeItem === item.id ? "secondary" : "ghost"}
+                className="relative gap-2"
+                onMouseEnter={() => setActiveItem(item.id)}
+                onMouseLeave={() => setActiveItem(null)}
               >
-                <Bell className="h-4 w-4" />
-              </motion.div>
-              {notifications > 0 && (
-                <Badge
-                  variant="destructive"
-                  className="absolute -right-1 -top-1 h-4 w-4 rounded-full p-0 text-xs flex items-center justify-center"
+                <motion.div
+                  animate={{
+                    scale: activeItem === item.id ? 1.1 : 1,
+                    rotate: activeItem === item.id ? [0, -10, 10, 0] : 0,
+                  }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {notifications}
-                </Badge>
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80">
-            <div className="flex items-center justify-between p-4">
-              <h4 className="font-medium">Notifications</h4>
-              <Badge variant="secondary" className="font-normal">
-                {notifications} new
-              </Badge>
-            </div>
-            <AnimatePresence>
-              {["Your job application was viewed", "New job match found", "Interview scheduled for tomorrow"].map(
-                (notification, index) => (
+                  <item.icon className="h-4 w-4" />
+                </motion.div>
+                {item.label}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-56">
+              <AnimatePresence>
+                {item.items.map((subItem, index) => (
                   <motion.div
-                    key={notification}
+                    key={subItem.label}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <DropdownMenuItem className="flex items-start gap-4 p-4">
-                      <Sparkles className="h-5 w-5 text-primary" />
-                      <div className="space-y-1">
-                        <p className="text-sm">{notification}</p>
-                        <p className="text-xs text-muted-foreground">2 hours ago</p>
-                      </div>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <subItem.icon className="h-4 w-4" />
+                      {subItem.label}
                     </DropdownMenuItem>
                   </motion.div>
-                ),
-              )}
-            </AnimatePresence>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+                ))}
+              </AnimatePresence>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button
+            key={item.id}
+            variant={item.isActive ? "secondary" : "ghost"}
+            className="gap-2"
+            onClick={item.onClick}
+            onMouseEnter={() => setActiveItem(item.id)}
+            onMouseLeave={() => setActiveItem(null)}
+          >
+            <motion.div
+              animate={{
+                scale: activeItem === item.id ? 1.1 : 1,
+                rotate: activeItem === item.id ? [0, -10, 10, 0] : 0,
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <item.icon className="h-4 w-4" />
+            </motion.div>
+            {item.label}
+          </Button>
+        )
+      )}
+
+      {/* Notifications */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="relative"
+            onMouseEnter={() => setActiveItem("notifications")}
+            onMouseLeave={() => setActiveItem(null)}
+          >
+            <motion.div
+              animate={{
+                scale: activeItem === "notifications" ? 1.1 : 1,
+                rotate: activeItem === "notifications" ? [0, -10, 10, 0] : 0,
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <Bell className="h-4 w-4" />
+            </motion.div>
+            {notifications > 0 && (
+              <Badge
+                variant="destructive"
+                className="absolute -right-1 -top-1 h-4 w-4 rounded-full p-0 text-xs flex items-center justify-center"
+              >
+                {notifications}
+              </Badge>
+            )}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-80">
+          <div className="flex items-center justify-between p-4">
+            <h4 className="font-medium">Notifications</h4>
+            <Badge variant="secondary" className="font-normal">
+              {notifications} new
+            </Badge>
+          </div>
+          <AnimatePresence>
+            {["Your job application was viewed", "New job match found", "Interview scheduled for tomorrow"].map(
+              (notification, index) => (
+                <motion.div
+                  key={notification}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <DropdownMenuItem className="flex items-start gap-4 p-4">
+                    <Sparkles className="h-5 w-5 text-primary" />
+                    <div className="space-y-1">
+                      <p className="text-sm">{notification}</p>
+                      <p className="text-xs text-muted-foreground">2 hours ago</p>
+                    </div>
+                  </DropdownMenuItem>
+                </motion.div>
+              ),
+            )}
+          </AnimatePresence>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <CVBuilderDialog open={showCVBuilder} onOpenChange={setShowCVBuilder} />
-    </>
+    </nav>
   )
 }
 
