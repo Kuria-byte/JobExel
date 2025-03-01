@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Plus, Search } from "lucide-react"
-import { useState } from "react"
-import { NavBar } from "@/components/nav-bar"
+import { useState, useEffect } from "react"
 import { StatsSection } from "@/components/stats-section"
 import { JobFilters } from "@/components/job-filters"
 import { JobCard } from "@/components/job-card"
@@ -15,6 +14,7 @@ import { SuccessFeedback } from "@/components/success-feedback"
 import { CVGenerationModal } from "@/components/cv-builder/cv-generation-modal"
 import { useRouter } from "next/navigation"
 import { CVData as ImportedCVData } from "@/types"
+import { NavBar } from '@/components/nav-bar'
 
 
 // Define type for job status
@@ -115,12 +115,24 @@ interface AddJobFormData {
 export default function DashboardPage() {
   const router = useRouter();
   
+  // Move window-dependent initializations to useEffect
+  useEffect(() => {
+    // Any window-dependent code goes here
+    // For example, localStorage access or window measurements
+  }, [])
+
+  // For localStorage-dependent initial states, use lazy initialization
+  const [jobList, setJobList] = useState<Job[]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('jobList')
+      return saved ? JSON.parse(saved) : initialJobs
+    }
+    return initialJobs
+  })
+  
   // View state
   const [currentView, setCurrentView] = useState<"grid" | "list" | "kanban">("grid");
   const [selectedStatus, setSelectedStatus] = useState("All");
-  
-  // Job data state
-  const [jobList, setJobList] = useState<Job[]>(initialJobs);
   
   // Dialog state
   const [isAddJobDialogOpen, setIsAddJobDialogOpen] = useState(false);

@@ -17,6 +17,12 @@ const nextConfig = {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
+    // Enable server components by default
+    serverComponents: true,
+    // Control which modules are bundled
+    optimizeDeps: {
+      include: ['@radix-ui/react-dialog', 'framer-motion']
+    }
   },
   redirects: async () => {
     return [
@@ -27,6 +33,7 @@ const nextConfig = {
       },
     ]
   },
+  reactStrictMode: true,
 }
 
 export default nextConfig;

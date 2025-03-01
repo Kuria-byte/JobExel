@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { Clock, FileText, Users, Award, Target, Calendar, Briefcase, TrendingUp, Building2, MapPin } from "lucide-react"
@@ -10,6 +10,25 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/comp
 
 export function StatsSection() {
   const [showAll, setShowAll] = useState(false)
+  const [isLargeScreen, setIsLargeScreen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Handle window resize
+  useEffect(() => {
+    // Set mounted state
+    setMounted(true)
+    
+    // Check initial screen size
+    setIsLargeScreen(window.innerWidth >= 1024)
+
+    // Handle resize events
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const allStats = [
     {
@@ -114,7 +133,15 @@ export function StatsSection() {
     },
   ]
 
-  const visibleStats = showAll ? allStats : allStats.slice(0, window.innerWidth >= 1024 ? 6 : 4)
+  // Calculate visible stats based on screen size
+  const visibleStats = showAll 
+    ? allStats 
+    : allStats.slice(0, isLargeScreen ? 6 : 4)
+
+  // Don't render until mounted to avoid hydration issues
+  if (!mounted) {
+    return null
+  }
 
   return (
     <div className="space-y-4">
@@ -157,7 +184,7 @@ export function StatsSection() {
         </div>
       </TooltipProvider>
 
-      {allStats.length > (window.innerWidth >= 1024 ? 6 : 4) && (
+      {allStats.length > (isLargeScreen ? 6 : 4) && (
         <div className="flex justify-center">
           <Button variant="ghost" size="sm" className="gap-2" onClick={() => setShowAll(!showAll)}>
             {showAll ? (
