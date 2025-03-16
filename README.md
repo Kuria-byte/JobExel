@@ -1,248 +1,79 @@
-# JobExel - AI-Powered Career Development Platform
+# Job Exel - Career Intelligence Platform
 
-<div align="center">
-  <img src="docs/assets/jobexel-logo.png" alt="JobExel Logo" width="200"/>
-  <p>Intelligent career management and job search platform powered by AI</p>
-  
-  [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
-  [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-</div>
+Job Exel is a comprehensive career development and job search platform designed to help professionals manage their career trajectory, optimize their job search process, and build resilience in their professional journey.
 
-## 📚 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
-- [Tech Stack](#tech-stack)
+- [System Architecture](#system-architecture)
+- [Database Schema](#database-schema)
+- [API Guide](#api-guide)
 - [Getting Started](#getting-started)
-- [Architecture](#architecture)
-- [API Documentation](#api-documentation)
+- [Development](#development)
+- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
 
-## 🚀 Overview
+## Overview
 
-JobExel is a comprehensive career development platform that leverages AI to streamline job searching, application tracking, and professional growth. Our platform combines modern technologies with intelligent features to provide an enhanced job search experience.
+Job Exel provides an integrated suite of tools to help professionals navigate their career journey. The platform combines job search management, career planning, professional documentation, and personal brand development into a single, cohesive experience.
 
-### Key Metrics & Goals
-```typescript
-interface PlatformMetrics {
-  userEngagement: {
-    dailyActiveUsers: number;
-    averageSessionDuration: number;
-    applicationCompletionRate: number;
-  };
-  aiPerformance: {
-    resumeParsingAccuracy: number;
-    matchingPrecision: number;
-    generationQuality: number;
-  };
-  systemHealth: {
-    apiLatency: number;
-    errorRate: number;
-    availability: number;
-  };
-}
-```
+### Key Value Propositions
 
-## ✨ Features
+- **Holistic Career Management**: Integrates all aspects of career development in one platform
+- **Data-Driven Insights**: Provides analytics and recommendations based on user data
+- **Progressive Disclosure**: Presents complex features in an approachable, step-by-step manner
+- **Personalized Experience**: Tailors recommendations and insights to individual career goals
 
-### 1. AI-Powered Resume Builder
-```typescript
-// src/features/resume/ResumeBuilder.tsx
-interface ResumeBuilderProps {
-  initialData?: ParsedResume;
-  templates: ResumeTemplate[];
-  aiSuggestions?: boolean;
-}
+## Features
 
-export function ResumeBuilder({ initialData, templates, aiSuggestions }: ResumeBuilderProps) {
-  const [activeTemplate, setActiveTemplate] = useState<ResumeTemplate>(templates[0]);
-  const [content, setContent] = useState<ResumeContent>(initialData || {});
-  
-  const { suggestions, isLoading } = useAISuggestions(content, {
-    enabled: aiSuggestions,
-  });
+### Dashboard
 
-  return (
-    <div className="resume-builder">
-      <TemplateSelector
-        templates={templates}
-        active={activeTemplate}
-        onSelect={setActiveTemplate}
-      />
-      <ResumeEditor
-        content={content}
-        onChange={setContent}
-        suggestions={suggestions}
-      />
-      <ResumePreview
-        template={activeTemplate}
-        content={content}
-      />
-    </div>
-  );
-}
-```
+The central hub that provides an overview of the user's career status, job search progress, and upcoming tasks.
 
-### 2. Job Search & Tracking
-```typescript
-// src/features/jobs/JobBoard.tsx
-interface JobBoardProps {
-  filters: JobFilters;
-  view: 'grid' | 'list';
-}
+### Career Path
 
-export function JobBoard({ filters, view }: JobBoardProps) {
-  const { data: jobs, isLoading } = useQuery({
-    queryKey: ['jobs', filters],
-    queryFn: () => fetchJobs(filters),
-  });
-
-  const { matchScore } = useJobMatching(jobs);
-
-  return (
-    <div className="job-board">
-      <JobFilters current={filters} />
-      {view === 'grid' ? (
-        <JobGrid jobs={jobs} matchScore={matchScore} />
-      ) : (
-        <JobList jobs={jobs} matchScore={matchScore} />
-      )}
-    </div>
-  );
-}
-```
-
-## 🛠 Tech Stack
-
-### Frontend
-- **Framework**: Next.js 14
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS, shadcn/ui
-- **State Management**: Redux Toolkit, RTK Query
-- **Data Fetching**: TanStack Query
-
-### Backend
-- **Runtime**: Node.js
-- **API**: Express, GraphQL
-- **Database**: PostgreSQL (Drizzle ORM)
-- **Caching**: Redis
-- **Search**: Elasticsearch
-
-### AI & Machine Learning
-- **NLP**: OpenAI GPT-4
-- **Resume Parsing**: Custom ML models
-- **Job Matching**: Similarity algorithms
-
-## 🏃‍♂️ Getting Started
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/yourusername/jobexel.git
-cd jobexel
-```
-
-2. **Install dependencies**
-```bash
-pnpm install
-```
-
-3. **Set up environment variables**
-```bash
-cp .env.example .env.local
-# Edit .env.local with your configuration
-```
-
-4. **Start development server**
-```bash
-pnpm dev
-```
-
-## 🏗 Architecture
-
-### Component Structure
-```typescript
-src/
-├── components/          # Reusable UI components
-├── features/           # Feature-specific components
-├── hooks/             # Custom React hooks
-├── lib/               # Utility functions and services
-├── pages/             # Next.js pages
-├── styles/            # Global styles and themes
-└── types/             # TypeScript type definitions
-```
-
-### Data Flow
-```mermaid
-graph TD
-    A[User Interface] -->|Action| B[Redux Store]
-    B -->|API Call| C[Backend API]
-    C -->|Query| D[Database]
-    C -->|Cache| E[Redis]
-    B -->|Update| A
-```
-
-## 📝 API Documentation
-
-### Authentication
-```typescript
-// Example authentication request
-const response = await fetch('/api/auth/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: 'user@example.com',
-    password: 'secure_password',
-  }),
-});
-
-const { token, user } = await response.json();
-```
+- **Trajectory Planner**: Visualize and plan career progression path
+- **Skills Gap Analysis**: Identify and close skill gaps for target roles
+- **Learning Recommendations**: Personalized learning resources
 
 ### Job Search
-```typescript
-// Example job search request
-const jobs = await fetch('/api/jobs/search', {
-  method: 'GET',
-  headers: {
-    'Authorization': `Bearer ${token}`,
-  },
-  params: {
-    query: 'software engineer',
-    location: 'remote',
-    experience: 'mid-level',
-  },
-});
-```
 
-## 🤝 Contributing
+- **Application Tracker**: Monitor and manage job applications
+- **Interview Preparation**: Prepare for interviews with AI guidance
+- **Follow-up Manager**: Track and manage follow-ups with recruiters
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+### Documentation
 
-### Development Workflow
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+- **Resume Lab**: Manage and optimize resume versions
+- **Achievements**: Track professional accomplishments
+- **References**: Manage professional references
 
-## 📄 License
+### Resilience
 
-JobExel is [MIT licensed](LICENSE).
+- **Rejection Recovery**: Learn and grow from job rejections
+- **Pivot Planner**: Explore alternative career paths
+- **Burnout Prevention**: Monitor and manage well-being
 
----
+### Brand & Presence
 
-## 📞 Contact
+- **Online Presence**: Manage and optimize professional online profiles
+- **Content Strategy**: Plan and track professional content creation
+- **Personal Brand**: Develop and refine professional brand identity
 
-- **Website**: [https://jobexel.com](https://jobexel.com)
-- **Email**: support@jobexel.com
-- **Twitter**: [@JobExel](https://twitter.com/JobExel)
+## System Architecture
 
----
+Job Exel follows a modern web application architecture with a clear separation of concerns:
 
-<div align="center">
-  <p>Built with ❤️ by the JobExel Team</p>
-</div> 
+```mermaid title="System Architecture" type="diagram"
+graph TD;
+    A["Client (Next.js)"] --> B["API Layer (Next.js API Routes)"]
+    B --> C["Service Layer"]
+    C --> D["Data Access Layer"]
+    D --> E["Database (PostgreSQL)"]
+    B --> F["External APIs"]
+    F --> G["Job Boards"]
+    F --> H["Learning Platforms"]
+    F --> I["AI Services"]
+
