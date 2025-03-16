@@ -1,3 +1,5 @@
+import { url } from "inspector"
+
 export interface Platform {
   name: string
   strength: number
@@ -8,23 +10,39 @@ export const onlinePresenceData = {
   platforms: [
     {
       name: "LinkedIn",
+      followers: 2500,
+      engagement: 85,
+      url: "https://www.linkedin.com/in/ianmwitumi",
       strength: 85,
       lastUpdated: "2025-03-15",
+      recommendations: ["Post more frequently", "Engage with followers"]
     },
     {
       name: "GitHub",
+      followers: 32,
+      engagement: 80,
+      url:"github.com/kuriabyte",
       strength: 75,
       lastUpdated: "2025-03-14",
+      recommendations: ["Add more repositories", "Improve README files"]
     },
     {
       name: "Portfolio",
+      followers: 0,
+      engagement: 0,
+      url: "https://kuria.pro",
       strength: 70,
       lastUpdated: "2025-03-13",
+      recommendations: ["Update portfolio projects", "Optimize for SEO"]
     },
     {
       name: "Twitter",
+      followers: 1500,
+      engagement: 70,
+      url: "https://twitter.com/iankuria",
       strength: 65,
       lastUpdated: "2025-03-12",
+      recommendations: ["Tweet more consistently", "Engage with trending topics"]
     },
   ],
   recentMentions: [

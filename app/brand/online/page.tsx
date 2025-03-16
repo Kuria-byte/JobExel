@@ -157,7 +157,7 @@ export default function OnlinePresencePage() {
                           <div className="grid grid-cols-2 gap-4">
                             <div className="rounded-lg border p-3">
                               <div className="text-sm text-muted-foreground">Followers</div>
-                              <div className="text-xl font-bold">{platform.followers || platform.visitors}</div>
+                              <div className="text-xl font-bold">{platform.followers}</div>
                             </div>
                             <div className="rounded-lg border p-3">
                               <div className="text-sm text-muted-foreground">Engagement</div>
@@ -355,7 +355,7 @@ export default function OnlinePresencePage() {
                             <div className="grid grid-cols-2 gap-4">
                               <div className="rounded-lg border p-3">
                                 <div className="text-sm text-muted-foreground">Monthly Visitors</div>
-                                <div className="text-xl font-bold">{platform.visitors}</div>
+                                <div className="text-xl font-bold">{platform.followers}</div>
                               </div>
                               <div className="rounded-lg border p-3">
                                 <div className="text-sm text-muted-foreground">Engagement</div>
