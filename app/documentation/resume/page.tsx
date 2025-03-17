@@ -62,7 +62,8 @@ export default function ResumePage() {
         </Card>
       </div>
 
-      <Card className="mb-6">
+      <div className="grid gap-6 md:grid-cols-2 mb-6">
+      <Card className="mb-6 ">
         <CardHeader>
           <CardTitle>Resume Performance</CardTitle>
           <CardDescription>How your resumes are performing against job requirements</CardDescription>
@@ -311,6 +312,7 @@ export default function ResumePage() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </DashboardLayout>
   )
 }

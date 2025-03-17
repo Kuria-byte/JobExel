@@ -50,6 +50,7 @@ export default function TrajectoryPlannerPage() {
         </Card>
       </div>
 
+      <div className="grid gap-6 md:grid-cols-2 mb-6">
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="flex items-center">
@@ -112,14 +113,14 @@ export default function TrajectoryPlannerPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Milestone Details</CardTitle>
           <CardDescription>Detailed information about each career milestone</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="1">
-            <TabsList className="mb-4">
+            <TabsList className="mb-4 w-full overflow-x-auto flex flex-nowrap pb-1 scrollbar-hide">
               {careerPathData.milestones.map((milestone) => (
                 <TabsTrigger key={milestone.id} value={milestone.id.toString()}>
                   {milestone.title}
@@ -180,6 +181,7 @@ export default function TrajectoryPlannerPage() {
           </Tabs>
         </CardContent>
       </Card>
+      </div>
     </DashboardLayout>
   )
 }

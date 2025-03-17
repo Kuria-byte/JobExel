@@ -1,179 +1,206 @@
-import { DashboardLayout } from "@/components/dashboard/layout"
-import { PageHeader } from "@/components/page-header"
+import { Bell, Calendar, Check, Clock, Mail, MoreHorizontal, PlusCircle, Search } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { ResponsiveTable } from "@/components/ui/responsive-table"
-import { Filter, Plus, Search } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DashboardLayout } from "@/components/dashboard/layout"
+import { PageHeader } from "@/components/page-header"
+import { StatusBadge } from "@/components/status-badge"
 import { followUpsData } from "@/data/job-search"
 
-export default function FollowUpPage() {
+export default function FollowUpManagerPage() {
   return (
     <DashboardLayout>
       <PageHeader
         title="Follow-up Manager"
-        description="Track and manage follow-ups with recruiters"
+        description="Track and manage your follow-ups with recruiters and hiring managers"
+        backHref="/job-search"
         actions={
           <Button size="sm" className="gap-1">
-            <Plus className="h-4 w-4" />
+            <PlusCircle className="h-4 w-4" />
             Add Follow-up
           </Button>
         }
       />
 
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search follow-ups..." className="pl-9" />
-          </div>
-          <Button variant="outline" className="gap-1">
-            <Filter className="h-4 w-4" />
-            Filter
-          </Button>
-        </div>
-
-        <Tabs defaultValue="pending">
-          <TabsList className="mb-4">
-            <TabsTrigger value="pending">Pending</TabsTrigger>
-            <TabsTrigger value="completed">Completed</TabsTrigger>
-            <TabsTrigger value="all">All</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="pending">
-            <ResponsiveTable>
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-muted/50">
-                    <th className="text-left p-3 font-medium">Company</th>
-                    <th className="text-left p-3 font-medium">Contact</th>
-                    <th className="text-left p-3 font-medium">Due Date</th>
-                    <th className="text-left p-3 font-medium">Status</th>
-                    <th className="text-center p-3 font-medium">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {followUpsData
-                    .filter((f) => f.status === "pending")
-                    .map((followUp) => (
-                      <tr key={followUp.id} className="border-t">
-                        <td className="p-3 font-medium">{followUp.company}</td>
-                        <td className="p-3">{followUp.contact}</td>
-                        <td className="p-3">{followUp.dueDate}</td>
-                        <td className="p-3">
-                          <Badge
-                            variant="outline"
-                            className={
-                              new Date(followUp.dueDate) < new Date()
-                                ? "bg-red-500/10 text-red-500 border-red-500/20"
-                                : "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
-                            }
-                          >
-                            {new Date(followUp.dueDate) < new Date() ? "Overdue" : "Pending"}
-                          </Badge>
-                        </td>
-                        <td className="p-3 text-center">
-                          <Button size="sm">Mark Complete</Button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </ResponsiveTable>
-          </TabsContent>
-
-          <TabsContent value="completed">
-            <ResponsiveTable>
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-muted/50">
-                    <th className="text-left p-3 font-medium">Company</th>
-                    <th className="text-left p-3 font-medium">Contact</th>
-                    <th className="text-left p-3 font-medium">Completed Date</th>
-                    <th className="text-left p-3 font-medium">Status</th>
-                    <th className="text-center p-3 font-medium">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {followUpsData
-                    .filter((f) => f.status === "completed")
-                    .map((followUp) => (
-                      <tr key={followUp.id} className="border-t">
-                        <td className="p-3 font-medium">{followUp.company}</td>
-                        <td className="p-3">{followUp.contact}</td>
-                        <td className="p-3">{followUp.completedDate || "-"}</td>
-                        <td className="p-3">
-                          <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/20">
-                            Completed
-                          </Badge>
-                        </td>
-                        <td className="p-3 text-center">
-                          <Button variant="outline" size="sm">
-                            View Details
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </ResponsiveTable>
-          </TabsContent>
-
-          <TabsContent value="all">
-            <ResponsiveTable>
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-muted/50">
-                    <th className="text-left p-3 font-medium">Company</th>
-                    <th className="text-left p-3 font-medium">Contact</th>
-                    <th className="text-left p-3 font-medium">Due Date</th>
-                    <th className="text-left p-3 font-medium">Status</th>
-                    <th className="text-center p-3 font-medium">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {followUpsData.map((followUp) => (
-                    <tr key={followUp.id} className="border-t">
-                      <td className="p-3 font-medium">{followUp.company}</td>
-                      <td className="p-3">{followUp.contact}</td>
-                      <td className="p-3">{followUp.dueDate}</td>
-                      <td className="p-3">
-                        <Badge
-                          variant="outline"
-                          className={
-                            followUp.status === "completed"
-                              ? "bg-green-500/10 text-green-500 border-green-500/20"
-                              : new Date(followUp.dueDate) < new Date()
-                                ? "bg-red-500/10 text-red-500 border-red-500/20"
-                                : "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
-                          }
-                        >
-                          {followUp.status === "completed"
-                            ? "Completed"
-                            : new Date(followUp.dueDate) < new Date()
-                              ? "Overdue"
-                              : "Pending"}
-                        </Badge>
-                      </td>
-                      <td className="p-3 text-center">
-                        {followUp.status === "pending" ? (
-                          <Button size="sm">Mark Complete</Button>
-                        ) : (
-                          <Button variant="outline" size="sm">
-                            View Details
-                          </Button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ResponsiveTable>
-          </TabsContent>
-        </Tabs>
+      <div className="grid gap-6 md:grid-cols-3 mb-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <div className="flex items-center gap-1">
+              <Clock className="h-4 w-4 text-blue-500" />
+              <CardTitle className="text-sm font-medium text-muted-foreground">Pending</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{followUpsData.filter((f) => f.status === "pending").length}</div>
+            <div className="text-sm text-muted-foreground">Follow-ups to send</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <div className="flex items-center gap-1">
+              <Bell className="h-4 w-4 text-red-500" />
+              <CardTitle className="text-sm font-medium text-muted-foreground">Overdue</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-red-500">
+              {followUpsData.filter((f) => f.status === "overdue").length}
+            </div>
+            <div className="text-sm text-muted-foreground">Past due date</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <div className="flex items-center gap-1">
+              <Check className="h-4 w-4 text-green-500" />
+              <CardTitle className="text-sm font-medium text-muted-foreground">Completed</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-green-500">
+              {followUpsData.filter((f) => f.status === "completed").length}
+            </div>
+            <div className="text-sm text-muted-foreground">Successfully sent</div>
+          </CardContent>
+        </Card>
       </div>
+
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Follow-ups</CardTitle>
+              <CardDescription>Track and manage your follow-ups</CardDescription>
+            </div>
+            <Button variant="outline" size="sm" className="gap-1">
+              <Calendar className="h-4 w-4" />
+              Calendar View
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="relative flex-1">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input placeholder="Search follow-ups..." className="pl-9" />
+              </div>
+            </div>
+
+            <Tabs defaultValue="all">
+              <TabsList className="mb-4">
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="pending">Pending</TabsTrigger>
+                <TabsTrigger value="overdue">Overdue</TabsTrigger>
+                <TabsTrigger value="completed">Completed</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="all">
+                <FollowUpsTable followUps={followUpsData} />
+              </TabsContent>
+
+              <TabsContent value="pending">
+                <FollowUpsTable followUps={followUpsData.filter((f) => f.status === "pending")} />
+              </TabsContent>
+
+              <TabsContent value="overdue">
+                <FollowUpsTable followUps={followUpsData.filter((f) => f.status === "overdue")} />
+              </TabsContent>
+
+              <TabsContent value="completed">
+                <FollowUpsTable followUps={followUpsData.filter((f) => f.status === "completed")} />
+              </TabsContent>
+            </Tabs>
+          </div>
+        </CardContent>
+      </Card>
     </DashboardLayout>
+  )
+}
+
+function FollowUpsTable({ followUps }: { followUps: typeof followUpsData }) {
+  if (followUps.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-8 text-center">
+        <Mail className="h-10 w-10 text-muted-foreground mb-2" />
+        <h3 className="font-medium">No follow-ups found</h3>
+        <p className="text-sm text-muted-foreground">Try adjusting your filters</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="rounded-lg border overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-muted/50">
+              <th className="text-left p-3 font-medium">Company</th>
+              <th className="text-left p-3 font-medium">Role</th>
+              <th className="text-left p-3 font-medium">Contact</th>
+              <th className="text-left p-3 font-medium">Last Contact</th>
+              <th className="text-left p-3 font-medium">Next Follow-up</th>
+              <th className="text-left p-3 font-medium">Status</th>
+              <th className="text-center p-3 font-medium w-10"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {followUps.map((followUp) => {
+              const lastDate = new Date(followUp.lastContact)
+              const nextDate = new Date(followUp.nextFollowUp)
+
+              const formattedLastDate = lastDate.toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })
+
+              const formattedNextDate = nextDate.toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })
+
+              return (
+                <tr key={followUp.id} className="border-t">
+                  <td className="p-3 font-medium">{followUp.company}</td>
+                  <td className="p-3">{followUp.role}</td>
+                  <td className="p-3">
+                    <div>
+                      <div>{followUp.contact}</div>
+                      <div className="text-sm text-muted-foreground">{followUp.email}</div>
+                    </div>
+                  </td>
+                  <td className="p-3">{formattedLastDate}</td>
+                  <td className="p-3">{formattedNextDate}</td>
+                  <td className="p-3">
+                    <StatusBadge status={followUp.status as any} />
+                  </td>
+                  <td className="p-3 text-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal className="h-4 w-4" />
+                          <span className="sr-only">Open menu</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>View details</DropdownMenuItem>
+                        <DropdownMenuItem>Mark as completed</DropdownMenuItem>
+                        <DropdownMenuItem>Reschedule</DropdownMenuItem>
+                        <DropdownMenuItem>Send email</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }
 

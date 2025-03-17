@@ -26,7 +26,7 @@ export default function SkillsGapPage() {
         }
       />
 
-      <div className="mb-6">
+      <div className="w-full mb-6">
         <div className="flex items-center gap-4 mb-4">
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -175,6 +175,7 @@ export default function SkillsGapPage() {
           </CardContent>
         </Card>
       </div>
+
 
       <Card>
         <CardHeader>

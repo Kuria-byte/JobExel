@@ -44,7 +44,7 @@ export default function ApplicationTrackerPage() {
         }
       />
 
-      <div className="grid gap-6 md:grid-cols-4 mb-6">
+        <div className="grid gap-6 md:grid-cols-2 mb-6 ">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total</CardTitle>
@@ -88,7 +88,10 @@ export default function ApplicationTrackerPage() {
         </Card>
       </div>
 
-      <Card className="mb-6">
+
+      <div className="grid gap-6 md:grid-cols-1 mb-6">
+
+      <Card className="w-full mb-6">
         <CardHeader>
           <CardTitle>Application Pipeline</CardTitle>
           <CardDescription>Visual representation of your application statuses</CardDescription>
@@ -143,8 +146,8 @@ export default function ApplicationTrackerPage() {
           </div>
         </CardContent>
       </Card>
-
-      <Card>
+    
+      <Card className="w-full mb-6">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -204,6 +207,9 @@ export default function ApplicationTrackerPage() {
           </div>
         </CardContent>
       </Card>
+   
+      </div>   
+
     </DashboardLayout>
   )
 }
